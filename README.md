@@ -2,11 +2,11 @@
 
 ## Sommaire
 
-* [Installation](#installation)
-* [Test](#test)
-* [Outils](#outils)
-* [Architecture du projet](#architecture-du-projet)
-* [Webographie](#webographie)
+- [Installation](#installation)
+- [Test](#test)
+- [Outils](#outils)
+- [Architecture du projet](#architecture-du-projet)
+- [Webographie](#webographie)
 
 ## Installation
 
@@ -97,17 +97,15 @@ Voir la [doc](https://reactnavigation.org/docs/en/getting-started.html)
 
 Un langage open-source édité par Microsoft qui permet d’avoir un sur-ensemble à javascript offrant des fonctionnalités complémentaires comme par exemple le typage statique et générique, les classes abstraites ou bien les énumérations.
 
+Voir la [doc du github](https://github.com/lopezjurip/ReactNativeTS).
+
 ### EsLint
 
 Pour avoir une seule convention de codage sur le projet, que l'écriture de code soit plus consistante et qu'il y ai moins de bugs. J'ai choisi le standard d'airbnb, cela permet d'avoir des règles prédéfinies et utilisées par des milliers de développeurs. EsLint s'utilise avec Prettier sur votre IDE, qui vous signalera lorsque votre code ne correspond pas au standard, voire même le modifier directement lorsque vous sauvegardez. Par exemple, l'une des règle est que les variables booléennes doivent avoir un nom spécifique. Donc `enabled` est un mauvais nom, il faudrait l'appeler `isEnabled`.
 
 Voir les règles et comment corriger ses erreurs [juste ici](https://github.com/yannickcr/eslint-plugin-react#list-of-supported-rules).
 
-
-
 ## Architecture du projet
-
-
 
 ```
 project
@@ -122,7 +120,7 @@ project
 |-package.json : la conf du projet, avec les scripts de lancement et les modules
 |-tsconfig.json : la conf de TypeScript
 |-tslint.json : la conf d'ESLint
-    
+
 ```
 
 ## Webographie
