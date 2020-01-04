@@ -9,7 +9,7 @@ export default class LoginScreen extends React.Component<Props, State> {
 	render() {
 		return (
 			<View>
-				<Text>Hey</Text>
+				<Text>Logins</Text>
 			</View>
 		);
 	}

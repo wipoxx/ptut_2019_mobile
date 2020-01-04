@@ -14,3 +14,6 @@ web-report/
 !.vscode/tasks.json
 !.vscode/launch.json
 !.vscode/extensions.json
+
+usb/*
+wifi/*
