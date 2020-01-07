@@ -46,6 +46,11 @@ export default class SigninScreen extends Component<Props, State> {
 	render() {
 		return (
 			<View style={styles.view}>
+				<TouchableOpacity
+					onPress={() => this.props.navigation.navigate("Login")}
+				>
+					<Text style={styles.login}>Se connecter</Text>
+				</TouchableOpacity>
 				<TouchableOpacity style={styles.avatar}>
 					<Image source={require("assets/avatarButton.png")} />
 					{/**TODO : Chercher image dans le téléphone */}
@@ -97,7 +102,7 @@ export default class SigninScreen extends Component<Props, State> {
 
 				<TouchableOpacity
 					style={styles.nextButton}
-					onPress={() => this.props.navigation.navigate("ViewHome")}
+					onPress={() => this.props.navigation.navigate("SelectPreferences")}
 				>
 					<Text style={styles.text}>Suivant →</Text>
 				</TouchableOpacity>
@@ -150,6 +155,11 @@ const styles = StyleSheet.create({
 		textAlign: "center",
 		color: "white",
 		fontWeight: "bold",
+	},
+	login: {
+		textAlign: "right",
+		textDecorationLine: "underline",
+		color: "white",
 	},
 	datePicker: {
 		backgroundColor: "white",

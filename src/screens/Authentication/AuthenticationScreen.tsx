@@ -10,7 +10,10 @@ type Props = {
 
 interface State {}
 
-export default class LoginScreen extends React.Component<Props, State> {
+export default class AuthenticationScreen extends React.Component<
+	Props,
+	State
+> {
 	componentDidMount() {
 		this.loadScreen();
 	}
