@@ -11,7 +11,8 @@ module.exports = function(api) {
 						router: "./src/router",
 						screens: "./src/screens",
 						constants: "./src/constants",
-						assets: "./assets"
+						assets: "./assets",
+						api: "./src/api"
 					},
 				},
 			],

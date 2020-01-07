@@ -3,6 +3,7 @@ import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { NavigationStackProp } from "react-navigation-stack";
 
 import MovieType from "./components/MovieType";
+import Colors from "constants/Colors";
 
 interface Props {
 	navigation: NavigationStackProp;
@@ -48,7 +49,7 @@ export default class SelectPreferencesScreen extends React.Component<
 
 const styles = StyleSheet.create({
 	nextButton: {
-		backgroundColor: "red",
+		backgroundColor: Colors.secondary,
 		justifyContent: "center",
 		height: "8%",
 		width: "40%",
@@ -63,7 +64,7 @@ const styles = StyleSheet.create({
 	},
 	view: {
 		flex: 1,
-		backgroundColor: "#105AA6",
+		backgroundColor: Colors.primary,
 		flexDirection: "row",
 		padding: "6%",
 		flexWrap: "wrap",
