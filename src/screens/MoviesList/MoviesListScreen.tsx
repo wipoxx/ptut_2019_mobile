@@ -1,53 +1,58 @@
 import React from "react";
 import MoviePreview from "./components/MoviePreview";
-import {getFilms} from "../../api/films";
+import { getFilms } from "../../api/films";
 import { StyleSheet, Text, View } from "react-native";
+import LoadingScreen from "screens/LoadingScreen";
 
 interface Props {}
 
 interface State {
-	movies: any,
+	movies: Array<object>;
+	isLoadingComplete: boolean;
 }
 
 export default class MoviesListScreen extends React.Component<Props, State> {
-	constructor(props: Props){
-		super(props); 
+	constructor(props: Props) {
+		super(props);
 		this.state = {
-			movies: "",
-		}
+			movies: [],
+			isLoadingComplete: false,
+		};
 	}
 
-	async getFilmsJson(){
+	async componentDidMount() {
 		const movies = await getFilms();
-		console.log(movies);
-		this.setState({movies: movies});
+		this.setState({ movies: movies, isLoadingComplete: true });
 	}
 
-	async render() {
-		await this.getFilmsJson();
+	render() {
 		// const films = await this.getFilmsJson();
-		console.log(this.state.movies); 
-		return (
-			<View>
-				<View style={styles.title}>
-					<Text style={styles.titleText}>Films recommandés</Text>
-				</View>
-				<MoviePreview 
-					movie={this.state.movies[0]}
-				/>
-				{/* <View>
+		const { movies, isLoadingComplete } = this.state;
+		if (!isLoadingComplete) {
+			return <LoadingScreen />;
+		} else {
+			return (
+				<View>
+					<View style={styles.title}>
+						<Text style={styles.titleText}>Films recommandés</Text>
+					</View>
+					{movies.map((value, index) => {
+						return <MoviePreview movie={value} key={index} />;
+					})}
+					{/* <View>
 					<Text>
 						{this.state.movies}
 					</Text>
 				</View> */}
-				<View style={styles.title}>
-					<Text style={styles.titleText}>Films les mieux notés</Text>
+					<View style={styles.title}>
+						<Text style={styles.titleText}>Films les mieux notés</Text>
+					</View>
+					<View style={styles.title}>
+						<Text style={styles.titleText}>Films par catégories</Text>
+					</View>
 				</View>
-				<View style={styles.title}>
-					<Text style={styles.titleText}>Films par catégories</Text>
-				</View>
-			</View>
-		);
+			);
+		}
 	}
 }
 
