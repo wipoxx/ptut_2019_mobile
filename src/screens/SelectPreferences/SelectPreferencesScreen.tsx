@@ -39,7 +39,9 @@ export default class SelectPreferencesScreen extends React.Component<
 				{this.state.typesOfMovies.map((type, index) => {
 					return <MovieType name={type} key={index} />;
 				})}
-				<TouchableOpacity style={styles.saveButton}>
+				<TouchableOpacity
+					style={styles.saveButton}
+					onPress={() => this.props.navigation.navigate("MoviesList")}>
 					<Text style={styles.saveButtonText}>Enregistrer</Text>
 				</TouchableOpacity>
 			</View>

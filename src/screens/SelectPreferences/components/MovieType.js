@@ -23,7 +23,7 @@ class MovieType extends React.Component {
             style = styles.viewNotSelected;
         }
         return(
-            <View>
+            <View key={this.props.index}>
                 <TouchableOpacity 
                     style={style}
                     onPress={() => this.setSelected()}>
