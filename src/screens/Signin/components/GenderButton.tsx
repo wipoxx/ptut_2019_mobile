@@ -28,8 +28,6 @@ export default class GenderButton extends Component<Props> {
 const styles = StyleSheet.create({
 	genderButton: {
 		padding: "2%",
-		borderColor: Colors.primary,
 		borderRadius: 10,
-		borderWidth: 1,
 	},
 });

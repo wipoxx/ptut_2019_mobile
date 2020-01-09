@@ -1,4 +1,5 @@
 import React from "react";
+// import AsyncStorage from "@react-native-community/async-storage";
 import { AsyncStorage } from "react-native";
 import { NavigationStackProp } from "react-navigation-stack";
 
@@ -19,7 +20,8 @@ export default class AuthenticationScreen extends React.Component<
 	}
 
 	loadScreen = async () => {
-		const userToken = await AsyncStorage.getItem("userToken");
+		const userToken = await AsyncStorage.getItem("userid");
+		await AsyncStorage.clear();
 		const screen = userToken ? "App" : "Auth";
 		this.props.navigation.navigate(screen);
 	};

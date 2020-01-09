@@ -1,13 +1,15 @@
 import React, { Component } from "react";
 import {
+	AsyncStorage,
+	Image,
+	Picker,
 	StyleSheet,
 	Text,
-	View,
-	Image,
-	TouchableOpacity,
 	TextInput,
+	TouchableOpacity,
+	View,
+	Alert,
 } from "react-native";
-import { Picker } from "react-native-picker-dropdown";
 import { NavigationStackProp } from "react-navigation-stack";
 
 import { putUser } from "api/users";
@@ -97,18 +99,10 @@ export default class SigninScreen extends Component<Props, State> {
 	};
 
 	setAge = (index: string) => {
-		console.log("index: ", index);
-		console.log("Object.keys(ageList)[index]: ", Object.keys(ageList));
-		console.log("ageList[index]: ", ageList[index]);
 		this.setState({ selectedAge: index });
 	};
 
 	render() {
-		console.log(
-			"ageList[this.state.selectedAge]: ",
-			ageList[this.state.selectedAge],
-		);
-		console.log("this.state.selectedAge: ", this.state.selectedAge);
 		return (
 			<View style={styles.view}>
 				<TouchableOpacity
@@ -116,75 +110,90 @@ export default class SigninScreen extends Component<Props, State> {
 				>
 					<Text style={styles.login}>Se connecter</Text>
 				</TouchableOpacity>
-				<TouchableOpacity style={styles.avatar}>
-					<Image source={require("assets/avatarButton.png")} />
-					{/**TODO : Chercher image dans le téléphone */}
-				</TouchableOpacity>
+				<View style={styles.signinView}>
+					<TouchableOpacity style={styles.avatar}>
+						<Image source={require("assets/avatarButton.png")} />
+						{/**TODO : Chercher image dans le téléphone */}
+					</TouchableOpacity>
 
-				{/* Genre */}
-				<View style={styles.gender}>
-					{genderSelection.map((value, index) => {
-						return (
-							<GenderButton
-								image={value.image}
-								genderValue={value.genderValue}
-								key={index}
-								onPress={this.setGender}
-								isSelected={value.genderValue == this.state.gender}
-							/>
-						);
-					})}
-				</View>
-
-				{/* Occupation */}
-				<Text>Profession :</Text>
-				<View style={styles.dropdown}>
-					<Picker
-						selectedValue={this.state.selectedJob}
-						onValueChange={(value: string, index: number) =>
-							this.setJob(value, index)
-						}
-					>
-						{Object.keys(occupationList).map((value, index) => {
+					{/* Genre */}
+					<View style={[styles.gender]}>
+						{genderSelection.map((value, index) => {
 							return (
-								<Picker.Item
-									label={occupationList[value]}
-									value={value}
+								<GenderButton
+									image={value.image}
+									genderValue={value.genderValue}
 									key={index}
+									onPress={this.setGender}
+									isSelected={value.genderValue == this.state.gender}
 								/>
 							);
 						})}
-					</Picker>
-				</View>
+					</View>
 
-				{/* Age */}
-				<Text>Age :</Text>
-				<View style={styles.dropdown}>
-					<Picker
-						selectedValue={this.state.selectedAge}
-						onValueChange={(value: string) => this.setAge(value)}
+					{/* Occupation */}
+					<View style={styles.inputView}>
+						<Text style={[styles.text, styles.label]}>Profession :</Text>
+						<View style={styles.dropdown}>
+							<Picker
+								selectedValue={this.state.selectedJob}
+								onValueChange={(value: string, index: number) =>
+									this.setJob(value, index)
+								}
+								itemStyle={{
+									justifyContent: "center",
+									alignItems: "center",
+									backgroundColor: "green",
+								}}
+							>
+								{Object.keys(occupationList).map((value, index) => {
+									return (
+										<Picker.Item
+											label={occupationList[value]}
+											value={value}
+											key={index}
+										/>
+									);
+								})}
+							</Picker>
+						</View>
+					</View>
+					{/* Age */}
+					<View style={styles.inputView}>
+						<Text style={[styles.text, styles.label]}>Age :</Text>
+						<View style={styles.dropdown}>
+							<Picker
+								selectedValue={this.state.selectedAge}
+								onValueChange={(value: string) => this.setAge(value)}
+							>
+								{Object.keys(ageList).map((value, index) => {
+									return (
+										<Picker.Item
+											label={ageList[value]}
+											value={value}
+											key={index}
+										/>
+									);
+								})}
+							</Picker>
+						</View>
+					</View>
+					{/* Zipcode */}
+					<View style={styles.inputView}>
+						<Text style={[styles.text, styles.label]}>Code postal : </Text>
+						<TextInput
+							onChangeText={(text: string) => this.setState({ zipcode: text })}
+							style={styles.dropdown}
+						/>
+					</View>
+
+					<TouchableOpacity
+						style={styles.nextButton}
+						onPress={() => this.saveUser()}
 					>
-						{Object.keys(ageList).map((value, index) => {
-							return (
-								<Picker.Item label={ageList[value]} value={value} key={index} />
-							);
-						})}
-					</Picker>
+						<Text style={styles.text}>Suivant →</Text>
+					</TouchableOpacity>
 				</View>
-
-				{/* Zipcode */}
-				<Text>Code postal : </Text>
-				<TextInput
-					onChangeText={(text: string) => this.setState({ zipcode: text })}
-					style={styles.dropdown}
-				/>
-
-				<TouchableOpacity
-					style={styles.nextButton}
-					onPress={() => this.saveUser()}
-				>
-					<Text style={styles.text}>Suivant →</Text>
-				</TouchableOpacity>
 			</View>
 		);
 	}
@@ -211,56 +220,75 @@ export default class SigninScreen extends Component<Props, State> {
 			zipcode,
 		);
 		console.log("res: ", res);
-		this.props.navigation.navigate("SelectPreferences");
+		if (res.data && res.data.userid) {
+			AsyncStorage.setItem("userid", res.data.userid.toString());
+			this.props.navigation.navigate("Authentication");
+		} else {
+			Alert.alert(
+				"Erreur",
+				"Problème lors de la création de l'utilisateur, veuillez recommencer.",
+			);
+		}
 	};
 }
 
 const styles = StyleSheet.create({
+	view: {
+		flex: 1,
+		padding: "2%",
+		backgroundColor: Colors.primary,
+	},
+	signinView: {
+		paddingTop: 10,
+		alignItems: "center",
+	},
+	inputView: {
+		height: "15%",
+		width: "80%",
+	},
 	avatar: {
 		alignContent: "center",
 		padding: "2%",
-		//width: '50%'
+		margin: "2%",
 	},
 	gender: {
-		padding: 20,
 		flexDirection: "row",
-	},
-	view: {
-		flex: 1,
-		padding: "15%",
-		backgroundColor: Colors.primary,
-		//justifyContent: "center",
-		alignItems: "center",
+		backgroundColor: "white",
+		padding: 1,
+		borderRadius: 10,
+		borderWidth: 0,
 	},
 	dropdown: {
 		backgroundColor: "white",
-		width: "80%",
-		margin: "3%",
+		width: "100%",
+		marginVertical: "3%",
 		justifyContent: "center",
-		height: 48,
+		borderRadius: 10,
+		height: "50%",
+		minHeight: 25,
+		paddingHorizontal: "2%",
 	},
 	nextButton: {
 		backgroundColor: "red",
 		justifyContent: "center",
+		alignContent: "center",
 		height: "8%",
 		width: "40%",
 		minHeight: 30,
 		minWidth: 80,
-		margin: "3%",
+		borderRadius: 10,
 	},
 	text: {
 		textAlign: "center",
 		color: "white",
 		fontWeight: "bold",
 	},
+	label: {
+		textAlign: "left",
+	},
 	login: {
 		textAlign: "right",
 		textDecorationLine: "underline",
 		color: "white",
-	},
-	datePicker: {
-		backgroundColor: "white",
-		width: "80%",
-		margin: "3%",
 	},
 });
