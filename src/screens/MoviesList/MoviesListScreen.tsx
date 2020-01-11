@@ -3,6 +3,7 @@ import MoviePreview from "./components/MoviePreview";
 import { getFilms } from "../../api/films";
 import { StyleSheet, Text, View } from "react-native";
 import LoadingScreen from "screens/LoadingScreen";
+import { ScrollView } from "react-native-gesture-handler";
 
 interface Props {}
 
@@ -28,27 +29,46 @@ export default class MoviesListScreen extends React.Component<Props, State> {
 	render() {
 		// const films = await this.getFilmsJson();
 		const { movies, isLoadingComplete } = this.state;
+		var movie = {
+			id: 1, 
+			poster_path: "https://s1.qwant.com/thumbr/0x380/8/6/f7a1aa046fd34fd02ed44f5019f960ff6d58b6dc5efc238e1a446f8ef00c41/latest.jpg?u=http%3A%2F%2Fvignette2.wikia.nocookie.net%2Flotr%2Fimages%2Fb%2Fb6%2FAragorn_profile.jpg%2Frevision%2Flatest%3Fcb%3D20170121121423&q=0&b=1&p=0&a=1",
+			title: "Lotr",
+		}
 		if (!isLoadingComplete) {
 			return <LoadingScreen />;
 		} else {
+			console.log(movies); 
 			return (
-				<View>
+				<View style={styles.screenView}>
 					<View style={styles.title}>
 						<Text style={styles.titleText}>Films recommandés</Text>
 					</View>
-					{movies.map((value, index) => {
-						return <MoviePreview movie={value} key={index} />;
-					})}
-					{/* <View>
-					<Text>
-						{this.state.movies}
-					</Text>
-				</View> */}
+					<View style={styles.movieList}>
+						<ScrollView horizontal={true}>
+							{movies.map((value, index) => {
+								return <MoviePreview movie={value}/>;
+							})}
+						</ScrollView>
+					</View>
 					<View style={styles.title}>
 						<Text style={styles.titleText}>Films les mieux notés</Text>
 					</View>
+					<View style={styles.movieList}>
+						<ScrollView horizontal={true}>
+							{movies.map((value, index) => {
+								return <MoviePreview movie={value}/>;
+							})}
+						</ScrollView>
+					</View>
 					<View style={styles.title}>
 						<Text style={styles.titleText}>Films par catégories</Text>
+					</View>
+					<View style={styles.movieList}>
+						<ScrollView horizontal={true}>
+							{movies.map((value, index) => {
+								return <MoviePreview movie={value}/>;
+							})}
+						</ScrollView>
 					</View>
 				</View>
 			);
@@ -57,14 +77,25 @@ export default class MoviesListScreen extends React.Component<Props, State> {
 }
 
 const styles = StyleSheet.create({
+	screenView: {
+		flex: 1,
+	},
 	title: {
+		flex: 1,
 		backgroundColor: "#105AA6",
 		width: "100%",
-		padding: "4%",
+		paddingTop: "5%",
 		alignItems: "center",
-		height: "16%",
+		// height: "16%",
 	},
 	titleText: {
 		color: "white",
+	},
+	movieList: {
+		flex: 6,
+	},
+	scrollView: {
+		flexDirection: 'row', 
+		flex: 1, 
 	},
 });
