@@ -11,11 +11,14 @@ class MoviePreview extends React.Component {
         }
     }
 
+    openMovieDetails(movie){
+        this.props.navigation.navigate("MovieDetails", movie={movie});
+    }
     
 
     render(){
         return(
-            <View style={styles.view} key={this.state.id}>
+            <View style={styles.view} key={this.state.id} onTouchEnd={() => this.openMovieDetails(this.props.movie)}>
                 <Image 
                     source={this.state.imageUrl}
                     style={styles.image}

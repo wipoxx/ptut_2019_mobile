@@ -4,8 +4,11 @@ import { getFilms } from "../../api/films";
 import { StyleSheet, Text, View } from "react-native";
 import LoadingScreen from "screens/LoadingScreen";
 import { ScrollView } from "react-native-gesture-handler";
+import { NavigationStackProp } from "react-navigation-stack";
 
-interface Props {}
+interface Props {
+	navigation: NavigationStackProp;
+}
 
 interface State {
 	movies: Array<object>;
@@ -46,7 +49,7 @@ export default class MoviesListScreen extends React.Component<Props, State> {
 					<View style={styles.movieList}>
 						<ScrollView horizontal={true}>
 							{movies.map((value, index) => {
-								return <MoviePreview movie={value}/>;
+								return <MoviePreview movie={value} navigation={this.props.navigation}/>;
 							})}
 						</ScrollView>
 					</View>
@@ -56,7 +59,7 @@ export default class MoviesListScreen extends React.Component<Props, State> {
 					<View style={styles.movieList}>
 						<ScrollView horizontal={true}>
 							{movies.map((value, index) => {
-								return <MoviePreview movie={value}/>;
+								return <MoviePreview movie={value} navigation={this.props.navigation}/>;
 							})}
 						</ScrollView>
 					</View>
@@ -66,7 +69,7 @@ export default class MoviesListScreen extends React.Component<Props, State> {
 					<View style={styles.movieList}>
 						<ScrollView horizontal={true}>
 							{movies.map((value, index) => {
-								return <MoviePreview movie={value}/>;
+								return <MoviePreview movie={value} navigation={this.props.navigation}/>;
 							})}
 						</ScrollView>
 					</View>
