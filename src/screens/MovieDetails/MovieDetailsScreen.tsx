@@ -1,7 +1,7 @@
 import React from "react";
-import { Text, View, Image, StyleSheet } from "react-native";
+import { Text, View, Image, StyleSheet, ImageBackground } from "react-native";
 import { NavigationStackProp } from "react-navigation-stack";
-import { ScrollView, TouchableOpacity } from "react-native-gesture-handler";
+import { ScrollView, TouchableOpacity, RotationGestureHandler } from "react-native-gesture-handler";
 import Star from "./star";
 
 interface Props {
@@ -34,21 +34,26 @@ export default class MovieDetailsScreen extends React.Component<Props, State> {
 	render() {
 		var movie = this.state.movie;
 		var cast = JSON.parse(movie.cast); 
+		var imageUrl = "https://image.tmdb.org/t/p/w185" + movie.imageUrl;
 		return (
 			<View style={styles.screenView}>
 				<ScrollView>
-					<Image 
-						source={movie.imageUrl}
+					<ImageBackground 
+						source={{uri: imageUrl}}
+						// source={require('assets/Lotr.jpg')}
 						style={styles.image}	
-					/> 
+					>
+						<View style={styles.titleView}>
+							<Text style={styles.titleText}>{movie.title} - {movie.release_date.substring(0,4)}</Text>
+							<Text style={styles.runtimeText}>{Math.floor(movie.runtime/60)}h{movie.runtime%60}</Text>
+						</View>
+					</ImageBackground>
 					{/* TODO : Supperposer image et titre*/}
-					<Text style={styles.titleText}>{movie.title} - {movie.release_date.substring(0,4)}</Text>
-					<Text style={styles.runtimeText}>{Math.floor(movie.runtime/60)}h {movie.runtime%60}</Text>
 					<View style={styles.detailsView}>
 						<View style={styles.descriptionView}>
 							<Text style={styles.whiteText}>Acteurs : 
 								{cast.map((value, index) => {
-									return <Text> {value.name},</Text>
+									return <Text key={index}> {value.name},</Text>
 								})}
 							</Text>
 							<Text style={styles.whiteText}>
@@ -108,15 +113,25 @@ const styles = StyleSheet.create({
 	titleText: {
 		fontSize: 30, 
 		paddingHorizontal: 30,
-		textAlign: "justify"
+		paddingTop: 15,
+		textAlign: "justify",
+		color: "white",
+	},
+	titleView: {
+		alignSelf: "flex-end",
+		backgroundColor: "#303030A0",
+		width: '100%',
 	},
 	starList: {
 		flexDirection: "row", 
 		flex: 1,
 		alignSelf: "center",
-		width: '80%'
+		width: '80%',
+		padding: 5,
+		paddingBottom: 10, 
 	},
 	runtimeText: {
+		color: "white",
 		fontSize: 22,
 		paddingVertical: 10,
 		paddingHorizontal: 40,
@@ -126,6 +141,7 @@ const styles = StyleSheet.create({
 	},
 	image: {
 		width: '100%',
+		flexDirection: "row",
 		height: 300,
         backgroundColor: '#EAEAEA',
 	},
@@ -133,6 +149,7 @@ const styles = StyleSheet.create({
 		width: "100%",
 		backgroundColor: "#105AA6",
 		padding: 25,
+		paddingBottom: 35, 
 	}, 
 	descriptionView: {
 		backgroundColor: "#000000", 

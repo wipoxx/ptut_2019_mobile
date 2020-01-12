@@ -6,7 +6,8 @@ class MoviePreview extends React.Component {
         super(props); 
         this.state = {
             id: this.props.movie.id, 
-            imageUrl: this.props.movie.poster_path,
+            imageUrl: "https://image.tmdb.org/t/p/w185" + this.props.movie.poster_path,
+            // imageUrl: require('assets/Lotr.jpg'),
             title: this.props.movie.title,
         }
     }
@@ -18,9 +19,9 @@ class MoviePreview extends React.Component {
 
     render(){
         return(
-            <View style={styles.view} key={this.state.id} onTouchEnd={() => this.openMovieDetails(this.props.movie)}>
+            <TouchableOpacity style={styles.view} key={this.state.id} onPress={() => this.openMovieDetails(this.props.movie)}>
                 <Image 
-                    source={this.state.imageUrl}
+                    source={{uri: this.state.imageUrl}}
                     style={styles.image}
                 />
                 <Text style={styles.text}>
@@ -28,7 +29,7 @@ class MoviePreview extends React.Component {
                     {/* TODO: ajuster le titre pour que les titres trop long prennent une taille maxi */}
                 </Text>
                 {/* TODO : note */}
-            </View>
+            </TouchableOpacity>
         )
     }
 }

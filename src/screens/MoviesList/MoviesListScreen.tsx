@@ -30,7 +30,7 @@ export default class MoviesListScreen extends React.Component<Props, State> {
 	}
 
 	render() {
-		// const films = await this.getFilmsJson();
+		//const films = await this.getFilmsJson();
 		const { movies, isLoadingComplete } = this.state;
 		var movie = {
 			id: 1, 
@@ -39,8 +39,7 @@ export default class MoviesListScreen extends React.Component<Props, State> {
 		}
 		if (!isLoadingComplete) {
 			return <LoadingScreen />;
-		} else {
-			console.log(movies); 
+		} else { 
 			return (
 				<View style={styles.screenView}>
 					<View style={styles.title}>
@@ -49,7 +48,7 @@ export default class MoviesListScreen extends React.Component<Props, State> {
 					<View style={styles.movieList}>
 						<ScrollView horizontal={true}>
 							{movies.map((value, index) => {
-								return <MoviePreview movie={value} navigation={this.props.navigation}/>;
+								return <MoviePreview movie={value} navigation={this.props.navigation} key={index}/>;
 							})}
 						</ScrollView>
 					</View>
@@ -59,7 +58,7 @@ export default class MoviesListScreen extends React.Component<Props, State> {
 					<View style={styles.movieList}>
 						<ScrollView horizontal={true}>
 							{movies.map((value, index) => {
-								return <MoviePreview movie={value} navigation={this.props.navigation}/>;
+								return <MoviePreview movie={value} navigation={this.props.navigation} key={index}/>;
 							})}
 						</ScrollView>
 					</View>
@@ -69,7 +68,7 @@ export default class MoviesListScreen extends React.Component<Props, State> {
 					<View style={styles.movieList}>
 						<ScrollView horizontal={true}>
 							{movies.map((value, index) => {
-								return <MoviePreview movie={value} navigation={this.props.navigation}/>;
+								return <MoviePreview movie={value} navigation={this.props.navigation} key={index} />;
 							})}
 						</ScrollView>
 					</View>
