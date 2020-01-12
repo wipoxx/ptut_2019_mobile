@@ -2,7 +2,7 @@ import React from "react";
 import { Text, View, StyleSheet, ImageBackground } from "react-native";
 import { NavigationStackProp } from "react-navigation-stack";
 import { ScrollView, TouchableOpacity } from "react-native-gesture-handler";
-import Star from "./star";
+import Star from "./components/Star";
 import {putRating} from "api/ratings";
 
 interface Props {
