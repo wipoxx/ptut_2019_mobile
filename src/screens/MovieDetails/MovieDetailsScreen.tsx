@@ -3,6 +3,7 @@ import { Text, View, StyleSheet, ImageBackground } from "react-native";
 import { NavigationStackProp } from "react-navigation-stack";
 import { ScrollView, TouchableOpacity } from "react-native-gesture-handler";
 import Star from "./star";
+import {putRating} from "api/ratings";
 
 interface Props {
 	navigation: NavigationStackProp;
@@ -27,13 +28,40 @@ export default class MovieDetailsScreen extends React.Component<Props, State> {
 		this.setState({selectedValue: value});
 	}
 
-	vote(){
+	async vote(){
+		if(this.state.selectedValue != -1){
+			await putRating(4317,this.state.movie.id, this.state.selectedValue*2);
+		}
 		// TODO : save selectedValue
+	}
+
+	findProducers(credits: any){
+		var producers = [];
+		credits.forEach(element => {
+			if(element.job == "Producer"){
+				producers.push(" " + element.name + ",")
+			}
+		});
+		return producers;
+	}
+
+	findWriters(credits: any){
+		var writers = [];
+		credits.forEach(element => {
+			if(element.job == "Writer"){
+				writers.push(" " + element.name + ",")
+			}
+		});
+		return writers;
 	}
 
 	render() {
 		var movie = this.state.movie;
 		var cast = JSON.parse(movie.cast); 
+		var credits = JSON.parse(movie.credits);
+		var producers = this.findProducers(credits);
+		var writers = this.findWriters(credits);
+		console.log(producers.length);
 		var imageUrl = "https://image.tmdb.org/t/p/w185" + movie.poster_path;
 		var min = movie.runtime%60;
 		return (
@@ -57,17 +85,24 @@ export default class MovieDetailsScreen extends React.Component<Props, State> {
 									return <Text key={index}> {value.name},</Text>
 								})}
 							</Text>
-							<Text style={styles.whiteText}>
-								Producteur(s) : 
-							</Text>
-							<Text style={styles.whiteText}>
-								Réalisateur(s) : 
-							</Text>
-							<Text style={styles.whiteText}>
+							{producers.length > 0 ? 
+								<Text style={styles.whiteText}>
+									Producteur(s) :{producers}
+								</Text>
+							: null}
+							{writers.length > 0 ? 
+								<Text style={styles.whiteText}>
+									Réalisateur(s) :{writers}
+								</Text>
+							: null}
+							<Text style={styles.overviewText}>
 								{movie.overview}
 							</Text>
-							<Text style={styles.noteText}>
+							<Text style={styles.whiteText}>
 								Note moyenne : {Math.floor(movie.vote_average/2*100)/100}/5
+							</Text>
+							<Text style={styles.voteNumberText}>
+								Nombre de votes : {movie.vote_count}
 							</Text>
 						</View>
 						<Text style={styles.whiteText}>
@@ -162,14 +197,17 @@ const styles = StyleSheet.create({
 		paddingBottom: 0, 
 		fontSize: 18,
 	},
-	noteText: {
+	voteNumberText: {
 		color: "white",
-		padding: 20,
-		fontSize: 20,
+		paddingHorizontal: 20,
+		paddingBottom: 20,
+		// fontSize: 20,
 	},
 	overviewText: {
 		color: "white",
 		textAlign: "justify",
+		paddingBottom: 0, 
+		fontSize: 17,
 		padding: 20,
 	},
 	voteButton: {
