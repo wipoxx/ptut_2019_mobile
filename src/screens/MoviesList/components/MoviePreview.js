@@ -18,6 +18,10 @@ class MoviePreview extends React.Component {
     
 
     render(){
+        var titleLength = 0; 
+        if(this.state.title){
+            titleLength = this.state.title.length;
+        }
         return(
             <TouchableOpacity style={styles.view} key={this.state.id} onPress={() => this.openMovieDetails(this.props.movie)}>
                 <Image 
@@ -25,7 +29,8 @@ class MoviePreview extends React.Component {
                     style={styles.image}
                 />
                 <Text style={styles.text}>
-                    {this.state.title}
+                    {titleLength > 32 ? this.state.title.substring(0,30) + ".." : this.state.title}
+                    {/* {this.state.title} */}
                     {/* TODO: ajuster le titre pour que les titres trop long prennent une taille maxi */}
                 </Text>
                 {/* TODO : note */}
@@ -38,17 +43,22 @@ const styles = StyleSheet.create({
     view: {
         flex: 1,
         padding: 10,
-
     },
     text: {
-        padding: '3%', 
+        padding: '4%', 
         textAlign: "center",
+        maxWidth: 110, 
+        color: 'white',
         fontSize: 16,
     },
     image: {
+        paddingHorizontal: 15, 
+        borderRadius: 3, 
+        paddingTop: 10,
         height: 130,
         width: 100,
         backgroundColor: '#EAEAEA',
+        alignSelf: "center",
     }
 });
 

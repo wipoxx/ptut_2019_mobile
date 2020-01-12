@@ -1,7 +1,7 @@
 import React from "react";
-import { Text, View, Image, StyleSheet, ImageBackground } from "react-native";
+import { Text, View, StyleSheet, ImageBackground } from "react-native";
 import { NavigationStackProp } from "react-navigation-stack";
-import { ScrollView, TouchableOpacity, RotationGestureHandler } from "react-native-gesture-handler";
+import { ScrollView, TouchableOpacity } from "react-native-gesture-handler";
 import Star from "./star";
 
 interface Props {
@@ -34,7 +34,8 @@ export default class MovieDetailsScreen extends React.Component<Props, State> {
 	render() {
 		var movie = this.state.movie;
 		var cast = JSON.parse(movie.cast); 
-		var imageUrl = "https://image.tmdb.org/t/p/w185" + movie.imageUrl;
+		var imageUrl = "https://image.tmdb.org/t/p/w185" + movie.poster_path;
+		var min = movie.runtime%60;
 		return (
 			<View style={styles.screenView}>
 				<ScrollView>
@@ -45,7 +46,7 @@ export default class MovieDetailsScreen extends React.Component<Props, State> {
 					>
 						<View style={styles.titleView}>
 							<Text style={styles.titleText}>{movie.title} - {movie.release_date.substring(0,4)}</Text>
-							<Text style={styles.runtimeText}>{Math.floor(movie.runtime/60)}h{movie.runtime%60}</Text>
+							<Text style={styles.runtimeText}>{Math.floor(movie.runtime/60)}h{min < 10 ? "0"+min : min}</Text>
 						</View>
 					</ImageBackground>
 					{/* TODO : Supperposer image et titre*/}
@@ -66,7 +67,7 @@ export default class MovieDetailsScreen extends React.Component<Props, State> {
 								{movie.overview}
 							</Text>
 							<Text style={styles.noteText}>
-								Note moyenne : {movie.vote_average/2}/5
+								Note moyenne : {Math.floor(movie.vote_average/2*100)/100}/5
 							</Text>
 						</View>
 						<Text style={styles.whiteText}>

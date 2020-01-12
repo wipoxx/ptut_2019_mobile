@@ -86,15 +86,23 @@ const styles = StyleSheet.create({
 		flex: 1,
 		backgroundColor: "#105AA6",
 		width: "100%",
-		paddingTop: "5%",
-		alignItems: "center",
+		
+		// alignItems: "center",
 		// height: "16%",
 	},
 	titleText: {
+		height: '100%',
+		width: '100%',
+		textAlign: "center",
+		textAlignVertical: "center",
+		paddingTop: 15, 
 		color: "white",
+		fontWeight: 'bold',
+		fontSize: 18, 
 	},
 	movieList: {
-		flex: 6,
+		flex: 4,
+		backgroundColor: 'black',
 	},
 	scrollView: {
 		flexDirection: 'row', 
