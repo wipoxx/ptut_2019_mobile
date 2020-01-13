@@ -24,7 +24,7 @@ export default class MoviesListScreen extends React.Component<Props, State> {
 		};
 	}
 
-	async componentDidMount() {
+	async componentDidMount() { 
 		const movies = await getFilms();
 		this.setState({ movies: movies, isLoadingComplete: true });
 	}
@@ -32,14 +32,14 @@ export default class MoviesListScreen extends React.Component<Props, State> {
 	render() {
 		//const films = await this.getFilmsJson();
 		const { movies, isLoadingComplete } = this.state;
-		var movie = {
-			id: 1, 
-			poster_path: "https://s1.qwant.com/thumbr/0x380/8/6/f7a1aa046fd34fd02ed44f5019f960ff6d58b6dc5efc238e1a446f8ef00c41/latest.jpg?u=http%3A%2F%2Fvignette2.wikia.nocookie.net%2Flotr%2Fimages%2Fb%2Fb6%2FAragorn_profile.jpg%2Frevision%2Flatest%3Fcb%3D20170121121423&q=0&b=1&p=0&a=1",
-			title: "Lotr",
-		}
+		
 		if (!isLoadingComplete) {
 			return <LoadingScreen />;
 		} else { 
+			// var moviesJson = JSON.parse(JSON.stringify(movies));
+			// console.log("///////////////////// MOVIES ////////////////////////");
+			// console.log(moviesJson[1]	);
+			// console.log("/////////////////////////////////////////////////////");
 			return (
 				<View style={styles.screenView}>
 					<View style={styles.title}>
